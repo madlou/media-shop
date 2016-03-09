@@ -1,0 +1,57 @@
+<?php
+ $data_php_nav_width=round(($data_mysql_admin["Page Width"]-$data_mysql_admin["Center Width"])/2);
+ echo("  <style type='text/css'>\n");
+ echo("   * {font-family:".$data_mysql_admin["Font"]."; font-size: ".$data_mysql_admin["Font Size"]."px; color:".$data_mysql_admin["Font Color"]."; padding: 0px; border: 0px solid black}\n");
+ echo("   #dhtmltooltip{position: absolute; width: 404px; border: 1px solid ".$data_mysql_admin["Border Color"]."; padding: 1px; background-color: ".$data_mysql_admin["Button Color"]."; visibility: hidden; z-index: 100;left:-1000px}\n");
+ echo("   a {color:".$data_mysql_admin["Font Color"]."; text-decoration:none}\n");
+ echo("   a.button, a.button-selected, a.media, a.media-selected {margin-right:auto;margin-left:auto;display:block; border:1px solid ".$data_mysql_admin["Border Color"]."; width:".$data_mysql_admin["Button Width"]."px; cursor: pointer;margin-top:2px;padding:2px;}\n");
+ echo("   a.button {background-color:".$data_mysql_admin["Button Color"].";text-align: center;}\n");
+ echo("   a.button:hover {background-color:".$data_mysql_admin["Selected Button Color"].";}\n");
+ echo("   a.button-selected {background-color:".$data_mysql_admin["Selected Button Color"]."; text-align: center;}\n");
+ echo("   a.button-selected:hover {background-color:".$data_mysql_admin["Border Color"].";}\n");
+ echo("   a.media {background-color:".$data_mysql_admin["Button Color"].";text-align: left;}\n");
+ echo("   a.media:hover {background-color:".$data_mysql_admin["Selected Button Color"].";}\n");
+ echo("   a.media-selected {background-color:".$data_mysql_admin["Selected Button Color"].";text-align: left;}\n");
+ echo("   a.media-selected:hover {background-color:".$data_mysql_admin["Border Color"].";}\n");
+ echo("   b, strong {font-size:".($data_mysql_admin["Font Size"]+2)."px;}\n");
+ echo("   body {background-color:".$data_mysql_admin["Background Color"]."; text-align: center;}\n");
+ echo("   div.message {margin:10px; border:1px solid ".$data_mysql_admin["Border Color"]."; padding:10px; text-align:center; background-color:black}\n");
+ echo("   div.thumbnail {border:1px solid ".$data_mysql_admin["Border Color"]."; width:40px; height: 40px;}\n");
+ echo("   div#contentleft {width:".$data_php_nav_width."px;padding:0px;float:left;text-align:center;}\n");
+ echo("   div#contentcenter {width:".$data_mysql_admin["Center Width"]."px;padding:0px;float:left;text-align:center;}\n");
+ echo("   div#contentright {width:".$data_php_nav_width."px;padding:0px;float:left;text-align:center;}\n");
+ echo("   div#contentheader {text-align:center;}\n");
+ echo("   div#frame {width:".$data_mysql_admin["Page Width"]."px;margin-right:auto;margin-left:auto;margin-top:10px;padding:0px;text-align:left;}\n");
+ echo("   div#maindiv {min-height:400px; height:auto !important; height:400px; border:1px solid ".$data_mysql_admin["Border Color"]."; background: url(".$data_mysql_admin["Center Image"].") no-repeat top;  margin-top:2px;padding:2px;}\n");
+ echo("   form {margin: 0px;}\n");
+ echo("   h1,h2,h3 {margin-bottom:4px;margin-top:4px;text-align:center;}\n");
+ echo("   h1 {font-size:".($data_mysql_admin["Font Size"]+8)."px;}\n");
+ echo("   h2 {font-size:".($data_mysql_admin["Font Size"]+4)."px;}\n");
+ echo("   h3 {font-size:".($data_mysql_admin["Font Size"]+2)."px;}\n");
+ echo("   hr {margin-right:auto;margin-left:auto; width:".$data_mysql_admin["Button Width"]."px; height: 1px; color: ".$data_mysql_admin["Border Color"]."; background-color: ".$data_mysql_admin["Border Color"].";}\n");
+ echo("   hr.hidethis {display:none;}\n");
+ echo("   img.imgbutton {border:1px solid ".$data_mysql_admin["Border Color"]."; background-color:".$data_mysql_admin["Button Color"]."; cursor: pointer;margin:0px;}\n");
+ echo("   img.mediaimg {float: left; width:30px; height: 30px;}\n");
+ echo("   img.thumbnail {border:1px solid ".$data_mysql_admin["Border Color"]."; width:40px; height: 40px;}\n");
+ echo("   img#image {border:1px solid ".$data_mysql_admin["Border Color"]."; width:460px;}\n");
+ echo("   input {border:1px solid ".$data_mysql_admin["Border Color"]."; background-color:".$data_mysql_admin["Selected Button Color"].";margin-top:2px; width:".$data_mysql_admin["Button Width"]."px; text-align:center;padding:2px;}\n");
+ echo("   input.button {margin-right:auto;margin-left:auto; cursor: pointer;background-color:".$data_mysql_admin["Button Color"].";}\n");
+ echo("   p {margin:10px;text-align:justify;}\n");
+ echo("   p.centered {text-align:center;}\n");  //font-weight:bold
+ echo("   span.hidethis {display:none}\n");
+ echo("   span.mediaimg {float: left; width:30px; height: 30px;}\n");
+ echo("   span.mediatxt {padding-left:4px; display:block; height: 1.2em; overflow: hidden; width:".($data_mysql_admin["Button Width"]-42)."px;}\n");
+ echo("   table {border-collapse:collapse; width:400px; margin-right:auto;margin-left:auto; margin-bottom:2px;margin-right:auto;margin-left:auto;}\n");
+ echo("   table#edittable {width:95%;}\n");
+ echo("   table#baskettable {width:".$data_mysql_admin["Center Width"]."px;}\n"); //$data_mysql_admin["Button Width"]
+ echo("   table#changepage {margin-top:8px; width:".$data_mysql_admin["Button Width"]."px; }\n");
+ echo("   td {text-align:left; padding:4px;border: 1px solid ".$data_mysql_admin["Border Color"]."; text-align: center; background-color:".$data_mysql_admin["Background Color"].";}\n");
+ echo("   td.hand {cursor: pointer;}\n");
+ echo("   td.noborder {background-color: transparent ;border: 0px solid black;}\n");
+ echo("   td.tableheader {padding:1px; background-color:".$data_mysql_admin["Button Color"].";border: 1px solid ".$data_mysql_admin["Border Color"].";}\n");
+ echo("   td.tableoption {cursor: pointer;padding:1px; background-color:".$data_mysql_admin["Button Color"].";border: 1px solid ".$data_mysql_admin["Border Color"]."; width:20px;}\n");
+ echo("   td.tablerow {padding:3px; background-color:".$data_mysql_admin["Selected Button Color"].";border: 1px solid ".$data_mysql_admin["Border Color"].";}\n");
+ echo("   td.tablefooter {padding:1px; background-color:".$data_mysql_admin["Selected Button Color"].";border: 1px solid ".$data_mysql_admin["Border Color"].";	}\n");
+ echo("   textarea {border:1px solid ".$data_mysql_admin["Border Color"]."; background-color:".$data_mysql_admin["Selected Button Color"].";margin-top:2px; width:".$data_mysql_admin["Button Width"]."px; text-align:left;padding:2px;}\n");
+ echo("  </style>\n");
+?>
