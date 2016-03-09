@@ -1,6 +1,7 @@
 <?php
 
  include("includes/connect.php");
+ include('includes/mail.php');
  
  // read the post from PayPal system and add 'cmd'
  $req = 'cmd=_notify-validate';
@@ -28,8 +29,8 @@
   // HTTP ERROR
   $insert = mysql_query("INSERT INTO `paypal` VALUES ('', 'HTTP Error', '$item_name', '$payment_status', '$payment_amount', '$payment_currency', '$txn_id', '$receiver_email', '$payer_email')");
   $emailmessage = "Dear Customer,\n Thankyou for your order.\n\nThere seems to be a technical issue with our server.\n\nPlease be patient, we will contact you shortly.";
-  mail($payer_email, "Your Order...", $emailmessage, "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
-  mail($receiver_email, "Error in order txn_id: ".$txn_id, "This has been sent to the customer:\n\n".$emailmessage."\n\n<b>Refer to the admin database for more details.</b>", "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
+  sendMail($payer_email, "Your Order...", $emailmessage, "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
+  sendMail($receiver_email, "Error in order txn_id: ".$txn_id, "This has been sent to the customer:\n\n".$emailmessage."\n\n<b>Refer to the admin database for more details.</b>", "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
  } else if($payment_status=="Completed") {
   fputs ($fp, $header . $req);
   while (!feof($fp)) {
@@ -59,20 +60,20 @@
      }
      $items=substr($items,0,strlen($items)-2);
      $emailmessage = "Dear Customer,\n Thankyou for your order.\n\nPlease log into our site to access your media.\n\nFrom the Homepage, login and then select 'View Purchases'.\n\n".$items;
-     mail($payer_email, "Your Order...", $emailmessage, "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
-     mail($receiver_email, "Successful order ~ txn_id: ".$txn_id, "This has been sent to the customer:\n\n".$emailmessage."\n\n<b>Refer to the admin database for more details.</b>", "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
+     sendMail($payer_email, "Your Order...", $emailmessage, "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
+     sendMail($receiver_email, "Successful order ~ txn_id: ".$txn_id, "This has been sent to the customer:\n\n".$emailmessage."\n\n<b>Refer to the admin database for more details.</b>", "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
     } else {
 //"Test bits: item name '$item_name',item number '$item_number', payment status '$payment_status', payment amount'$payment_amount', payment currency '$payment_currency', txn id '$txn_id', receiver email '$receiver_email', payer email '$payer_email'  \n\n\n\n
      $emailmessage = "Dear Customer,\n Thankyou for your order.\n\nWe were unable to find Your details on our database.\n\nPlease be patient, we will contact you shortly.";
-     mail($payer_email, "Your Order...", $emailmessage, "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
-     mail($receiver_email, "Manual update needed on order txn_id: ".$txn_id." ~ Customers email: ".$payer_email, "This has been sent to the customer:\n\n".$emailmessage."\n\nRefer to the admin database for more details.", "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
+     sendMail($payer_email, "Your Order...", $emailmessage, "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
+     sendMail($receiver_email, "Manual update needed on order txn_id: ".$txn_id." ~ Customers email: ".$payer_email, "This has been sent to the customer:\n\n".$emailmessage."\n\nRefer to the admin database for more details.", "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
     }
    } else if (strcmp ($res, "INVALID") == 0) {
     // log for manual investigation
   	$insert = mysql_query("INSERT INTO `paypal` VALUES ('', 'Invalid', '$item_name', '$payment_status', '$payment_amount', '$payment_currency', '$txn_id', '$receiver_email', '$payer_email')");
     $emailmessage = "Dear Customer,\n Thankyou for your order.\n\nThere seems to be an issue with the paypal details you supplied, we are looking into it now.\n\nPlease be patient, we will contact you shortly.";
-    mail($payer_email, "Your Order...", $emailmessage, "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
-    mail($receiver_email, "Error in order txn_id: ".$txn_id, "This has been sent to the customer:\n\n".$emailmessage."\n\nRefer to the admin database for more details.", "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
+    sendMail($payer_email, "Your Order...", $emailmessage, "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
+    sendMail($receiver_email, "Error in order txn_id: ".$txn_id, "This has been sent to the customer:\n\n".$emailmessage."\n\nRefer to the admin database for more details.", "From: ".$receiver_email."\nReply-To: ".$receiver_email."");
    }
   }
   fclose ($fp);

@@ -1,22 +1,22 @@
 <?php
  //get url data
- $data_url_menu = htmlspecialchars($_GET["menu"], ENT_QUOTES);
- $data_url_gallery = htmlspecialchars($_GET["gallery"], ENT_QUOTES);
- $data_url_page = htmlspecialchars($_GET["page"], ENT_QUOTES);
- $data_url_media = htmlspecialchars($_GET["media"], ENT_QUOTES);
- $action = $_GET["action"];
- $value1 = htmlspecialchars(stripslashes($_GET["value1"]), ENT_QUOTES);
- $value2 = htmlspecialchars(stripslashes($_GET["value2"]), ENT_QUOTES); //used for autoplay
- $value3 = htmlspecialchars(stripslashes($_GET["value3"]), ENT_QUOTES);
- $value4 = stripslashes($_GET["value4"]);
- $value5 = htmlspecialchars(stripslashes($_GET["value5"]), ENT_QUOTES);
- $value6 = htmlspecialchars(stripslashes($_GET["value6"]), ENT_QUOTES);
+ $data_url_menu = htmlspecialchars(@$_GET["menu"], ENT_QUOTES);
+ $data_url_gallery = htmlspecialchars(@$_GET["gallery"], ENT_QUOTES);
+ $data_url_page = htmlspecialchars(@$_GET["page"], ENT_QUOTES);
+ $data_url_media = htmlspecialchars(@$_GET["media"], ENT_QUOTES);
+ $action = @$_GET["action"];
+ $value1 = htmlspecialchars(stripslashes(@$_GET["value1"]), ENT_QUOTES);
+ $value2 = htmlspecialchars(stripslashes(@$_GET["value2"]), ENT_QUOTES); //used for autoplay
+ $value3 = htmlspecialchars(stripslashes(@$_GET["value3"]), ENT_QUOTES);
+ $value4 = stripslashes(@$_GET["value4"]);
+ $value5 = htmlspecialchars(stripslashes(@$_GET["value5"]), ENT_QUOTES);
+ $value6 = htmlspecialchars(stripslashes(@$_GET["value6"]), ENT_QUOTES);
  if(!($action.$value1.$value2.$value3.$value4.$value5)){
-  $action = $_POST["action"];
-  $value1 = htmlspecialchars(stripslashes($_POST["value1"]), ENT_QUOTES);
-  $value2 = htmlspecialchars(stripslashes($_POST["value2"]), ENT_QUOTES);
-  $value3 = htmlspecialchars(stripslashes($_POST["value3"]), ENT_QUOTES);
-  $value4 = htmlspecialchars(stripslashes($_POST["value4"]), ENT_QUOTES);
+  $action = @$_POST["action"];
+  $value1 = htmlspecialchars(stripslashes(@$_POST["value1"]), ENT_QUOTES);
+  $value2 = htmlspecialchars(stripslashes(@$_POST["value2"]), ENT_QUOTES);
+  $value3 = htmlspecialchars(stripslashes(@$_POST["value3"]), ENT_QUOTES);
+  $value4 = htmlspecialchars(stripslashes(@$_POST["value4"]), ENT_QUOTES);
  }
 
  //create site variables

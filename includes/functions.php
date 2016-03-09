@@ -1,6 +1,7 @@
 <?php
  function checklogin(){
   global $action,$value1,$value2,$data_cookie_user, $data_cookie_admin, $data_html_bodytag, $data_messages, $data_messagesx;
+  $message = "";
   if($action=="logout"){
    $message.="<h3>".ucwords($_COOKIE["user"])." ".$data_messages[19]."</h3>";
    setcookie("user","",time()-60*60);
@@ -28,7 +29,7 @@
 //    $data_html_bodytag=" onload='focusform()'";
    }
   } else {
-   if($_COOKIE["user"]){
+   if(@$_COOKIE["user"]){
     $data_cookie_user=$_COOKIE["user"];
     setcookie("user",$data_cookie_user,time()+60*60);
     $message.="<div class='message'>".$data_messages[23]." ".ucwords($data_cookie_user)."</div>";

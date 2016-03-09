@@ -2,6 +2,7 @@
  header('Content-type: text/html; charset=utf-8');
  include("includes/connect.php");
  include("includes/functions.php");
+ include("includes/mail.php");
  include("includes/variables.php");
  $loginhtml=checklogin();
  include("includes/getdata.php");
@@ -25,7 +26,7 @@
  if($data_name_menu){
   $windowtitle=" - ".$data_name_menu;
  }
- if($data_name_gallery){
+ if(isset($data_name_gallery)){
   $windowtitle.=" - ".$data_name_gallery;
  }
  echo("  <title>".$data_mysql_admin["Title"].$windowtitle."</title>\n"); 
@@ -55,7 +56,7 @@
    <hr class="hidethis">
    <div id="contentleft">
 <?php
- if(!$slideshow){
+ if(!isset($slideshow)){
   include("html/1.txt");
   echo($site_nav);
   if($site_nav_admin){
@@ -69,22 +70,24 @@
    <hr class="hidethis">
    <div id="contentcenter">
 <?php
- if(!$slideshow){
+ if(!isset($slideshow)){
   include("html/3.txt");
  }
  echo("<div id='maindiv'>\n");
  echo($site_main);
  echo("</div>\n");
- if(!$slideshow){
+ if(!isset($slideshow)){
   include("html/4.txt");
-  echo($site_basket);
+  if(isset($site_basket)){
+   echo($site_basket);
+  }
  }
 ?>
    </div>
    <hr class="hidethis">
    <div id="contentright">
 <?php
- if(!$slideshow){
+ if(!isset($slideshow)){
   include("html/5.txt");
   echo($site_options);
   if($site_thumbnails){

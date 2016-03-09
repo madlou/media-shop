@@ -1,7 +1,9 @@
 <?php
+  
  /*
  $site_nav is the navigation menus
  */
+  $process_shownumber="";
   while($data_mysql_menu_all_row=mysql_fetch_array($data_mysql_menu_all)) {
    $data_php_nav_gallery="";
    if($data_mysql_menu_all_row["number"]==$data_url_menu){
@@ -112,7 +114,7 @@
     }
     if(!$message){
      $headers = sprintf("From: %s\r\n", $data_email_from);
-     if (mail($data_email_emailto, $data_email_subject." - ".$data_email_from, "From: ".$data_email_from."\n\n".$data_email_body)){
+     if (sendMail($data_email_emailto, $data_email_subject . " - " . $data_email_from, $data_email_body, $data_email_from)){
       $message.="<p>".$data_messages[32]."</p>";
      } else {
       $message.="<p>".$data_messages[33]."</p>";
@@ -141,8 +143,7 @@
      $message.="<p>".$data_messages[31]."</p>";
     }
     if(!$message){
-     $headers = sprintf("From: %s\r\n", $data_email_from);
-     if (mail($data_email_emailto, $data_email_subject, $data_email_body,$headers)){
+     if (sendMail($data_email_emailto, $data_email_subject, $data_email_body, $data_email_from)){
       $message.="<p>".$data_messages[32]."</p>";
      } else {
       $message.="<p>".$data_messages[33]."</p>";
@@ -270,7 +271,7 @@
    $data_email_emailto=$value1;
    $data_email_body=$data_messages[5].": ".$row[0]."\n".$data_messages[6].": ".$row[1]."\n";
    $headers = sprintf("From: %s\r\n", $data_email_from);
-   @mail($data_email_emailto, $data_email_subject, "From: ".$data_email_from."\n\n".$data_email_body);
+   @sendMail($data_email_emailto, $data_email_subject, $data_email_body, $data_email_from);
    $site_main.="<div class='message'>".$data_messages[86]."</div>\n";
    $action="stopload";
   break;
@@ -290,7 +291,7 @@
     }
     //$insert = @mysql_query("INSERT INTO `users` VALUES (DEFAULT, '$value2','$value3','$value1','10');");
     $insert = @mysql_query("INSERT INTO `users` VALUES (DEFAULT, '$value2','$value3','$value1','10',DEFAULT);");
-    $mail = @mail($value1,"Thank you for registering at ".$data_mysql_admin["Title"]."!","Your user name is: $value2\n\nYour password is: $value3");
+    $mail = @sendMail($value1,"Thank you for registering at ".$data_mysql_admin["Title"]."!","Your user name is: $value2\n\nYour password is: $value3");
     $site_main.="<h3>".$data_messages[50]."</h3>\n";
     $site_main.="<div class='message'>".$data_messages[51]."</div>\n";
     $site_main.=button($data_messages[1],httplink("","","","",login),"","button");
@@ -513,7 +514,7 @@
       $site_main.="</table>";
      }
      $site_main.="<h3>".$data_messages[56]."</h3>";
-     $site_main.="<OBJECT ID='MediaPlayer1' CLASSID='CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95' CODEBASE='http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab# Version=5,1,52,701' STANDBY='Loading Microsoft Windows® Media Player components...' TYPE='application/x-oleobject' width='280' height='46'>\n";
+     $site_main.="<OBJECT ID='MediaPlayer1' CLASSID='CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95' CODEBASE='http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab# Version=5,1,52,701' STANDBY='Loading Microsoft Windowsï¿½ Media Player components...' TYPE='application/x-oleobject' width='280' height='46'>\n";
      $site_main.="<param name='fileName' value='$process_file'>\n<param name='animationatStart' value='true'>\n<param name='transparentatStart' value='true'>\n";
      if($value2){$temp="true";} else {$temp="false";}
      $site_main.="<param name='autoStart' value='$temp'>\n<param name='showControls' value='true'>\n<param name='Volume' value='-300'>\n";
@@ -566,13 +567,13 @@
  $site_options contains Login, Search and View Purchases
  */
  if($data_cookie_user){
-  $site_options.=button($data_messages[27],httplink("","","","",logout), "", "button");
-  $site_options.=button($data_messages[28],httplink("","","","",viewpurchases), "", "button");
+  $site_options.=button($data_messages[27],httplink("","","","","logout"), "", "button");
+  $site_options.=button($data_messages[28],httplink("","","","","viewpurchases"), "", "button");
  }
  if($data_cookie_admin||!$data_cookie_user){
   if($data_mysql_admin["Show Login"]){
-   $site_options.=button($data_messages[1],httplink("","","","",login), "", "button");
-   $site_options.=button($data_messages[2],httplink("","","","",register), "", "button");
+   $site_options.=button($data_messages[1],httplink("","","","","login"), "", "button");
+   $site_options.=button($data_messages[2],httplink("","","","","register"), "", "button");
   }
  }
  if($action=="search"&&!$value1){
@@ -605,6 +606,7 @@
     $process_media_units=$data_mysql_admin["Thumbnail Columns"];
    break;
   }
+  $data_php_media_lines = array(array());
   if($process_media_units){
    if(($process_td_units+$process_media_units)<=$data_mysql_admin["Thumbnail Columns"]){
     $data_php_media_lines[$process_row_number][$process_col_number]=$process_row[0];
@@ -629,6 +631,8 @@
   $data_php_gallery_row_finish=9999;
   $data_php_gallery_pages=0;
  }
+ $search_action="";
+ $search_value1="";
  if($action=="search"&&$value1){
   $search_action="search";
   $search_value1=$value1;
@@ -702,11 +706,11 @@
   $site_changepage.="<a href='".httplink($data_url_menu,$data_url_gallery,$data_url_page-1,$data_url_media,$search_action,$search_value1)."' title='".$data_messages[18]."'><img src='images/arrow1.gif' class='imgbutton' alt='".$data_messages[18]."'></a>";
  }
  $site_changepage.="</td><td width='25%' class='noborder'>";
- if($data_php_media_lines[$data_php_gallery_row_finish+1]){
+ if(isset($data_php_media_lines[$data_php_gallery_row_finish+1])){
   $site_changepage.="<a href='".httplink($data_url_menu,$data_url_gallery,$data_url_page+1,$data_url_media,$search_action,$search_value1)."' title='".$data_messages[17]."'><img src='images/arrow2.gif' class='imgbutton' alt='".$data_messages[17]."'></a>";
  }
  $site_changepage.="</td><td width='25%' class='noborder'>";
- if($data_php_media_lines[$data_php_gallery_row_finish+1]){
+ if(isset($data_php_media_lines[$data_php_gallery_row_finish+1])){
   $site_changepage.="<a href='".httplink($data_url_menu,$data_url_gallery,$data_php_gallery_pages,$data_url_media,$search_action,$search_value1)."' title='Last Page'><img src='images/lastpage.gif' class='imgbutton' alt='Last Page'></a>";
  }
  $site_changepage.="</td></tr><tr><td class='noborder' colspan='4'>";

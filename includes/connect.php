@@ -1,9 +1,9 @@
 <?php
  //user defined variables
- $loginName="";
+ $loginName="root";
  $password="";
- $server="";
- $databaseName="";
+ $server="localhost";
+ $databaseName="media-shop";
  //if you have multiple database servers, you can fill in the next section
  $loginName_2="";
  $password_2="";
